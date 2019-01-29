@@ -38,7 +38,7 @@ class CellTest < Minitest::Test
     assert_equal false, cell.fired_upon?
   end
 
-  def test_fire_upon_a_cell
+  def test_firing_upon_a_cell_with_ship_hits_health
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -46,4 +46,16 @@ class CellTest < Minitest::Test
     assert_equal 2, cell.ship.health
   end
 
+  def test_cell_returns_true_once_fired_upon
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.fire_upon
+    assert_equal true, cell.fired_upon?
+
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.place_ship(cruiser)
+    cell.fire_upon
+    assert_equal true, cell.fired_upon?
+  end
 end
