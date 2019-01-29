@@ -30,4 +30,6 @@ class CellTest < Minitest::Test
     assert_equal cruiser, cell.ship
     assert_equal false, cell.empty?
   end
+
+  
 end
