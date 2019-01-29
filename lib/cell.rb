@@ -26,4 +26,15 @@ class Cell
     end
   end
 
+  def render
+     if fired_upon? == false
+       return "."
+     elsif fired_upon? == true && empty? == true
+       return "M"
+     elsif fired_upon? == true && empty? == false
+       return "H"
+     elsif fired_upon? == true && empty? == false && ship.health_count = 0
+       return "X"
+     end
+  end
 end
