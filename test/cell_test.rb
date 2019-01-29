@@ -31,5 +31,19 @@ class CellTest < Minitest::Test
     assert_equal false, cell.empty?
   end
 
-  
+  def test_has_a_cell_been_fired_upon
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.place_ship(cruiser)
+    assert_equal false, cell.fired_upon?
+  end
+
+  def test_fire_upon_a_cell
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.place_ship(cruiser)
+    cell.fire_upon
+    assert_equal 2, cell.ship.health
+  end
+
 end
