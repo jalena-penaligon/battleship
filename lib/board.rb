@@ -25,10 +25,19 @@ class Board
       @cells.key?(coordinate)
   end
 
-  def valid_placement?(ship, coordinates)
+  def ship_length_placement(ship, coordinates)
     ship.length == coordinates.count
-    # ship length
-    # array of coordinates
   end
+
+  def coords_are_consecutive
+    coordinates.map! do |coordinate|
+      coordinate.split(//)
+    end
+  end
+
+  def valid_placement?(ship, coordinates)
+    ship_length_placement(ship, coordinates)
+  end
+
 
 end
