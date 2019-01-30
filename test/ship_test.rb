@@ -44,7 +44,7 @@ def test_it_takes_hits_till_it_sinks
   cruiser.hit
   assert_equal 1, cruiser.health
   cruiser.hit
-  assert_equal 0, cruiser.health
+  asset_equal 0, cruiser.health
   assert_equal true, cruiser.sunk?
 end
 
