@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/ship'
 require './lib/cell'
+require 'pry'
 
 class CellTest < Minitest::Test
   def test_it_exists
@@ -60,44 +61,54 @@ class CellTest < Minitest::Test
   end
 
   def test_how_will_it_render_when_not_fired_upon
-      cell_1 = Cell.new("B4")
+    cell_1 = Cell.new("B4")
 
-      assert_equal ".", cell_1.render
+    assert_equal ".", cell_1.render
+    assert_equal ".", cell_1.render(true)
   end
 
   def test_render_when_ship_is_placed
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
-
     assert_equal ".", cell_2.render
+  end
 
-    def test_render_when_ship_is_placed_with_optional_arg
-      cell_2 = Cell.new("C3")
-      cruiser = Ship.new("Cruiser", 3)
-      cell_2.place_ship(cruiser)
+  def test_render_when_fired_but_missed
+    cell_2 = Cell.new("C3")
+    cruiser = Ship.new("Cruiser", 3)
+    cell_2.fire_upon
+    assert_equal "M", cell_2.render
+    assert_equal "M", cell_2.render(true)
+  end
 
-      assert_equal "S", cell_2.render(true)
-    end
+  def test_render_when_ship_is_placed_and_input_is_true
+    cell_2 = Cell.new("C3")
+    cruiser = Ship.new("Cruiser", 3)
+    cell_2.place_ship(cruiser)
 
-    def test_render_when_a_ship_is_hit
-      cell_2 = Cell.new("C3")
-      cruiser = Ship.new("Cruiser", 3)
-      cell_2.place_ship(cruiser)
-      cell_2.fire_upon
-      assert_equal "H", cell_2.render
-      assert_equal false, cruiser.sunk?
-    end
+    assert_equal "S", cell_2.render(true)
+  end
 
-    def test_render_when_a_ship_is_sunk
-      cell_2 = Cell.new("C3")
-      cruiser = Ship.new("Cruiser", 3)
-      cell_2.place_ship(cruiser)
-      cell_2.fire_upon
-      cell_2.fire_upon
-      cell_2.fire_upon
-      assert_equal true, cruiser.sunk?
-      assert_equal "X", cell_2.render
-    end
+  def test_render_when_a_ship_is_hit
+    cell_2 = Cell.new("C3")
+    cruiser = Ship.new("Cruiser", 3)
+    cell_2.place_ship(cruiser)
+    cell_2.fire_upon
+    assert_equal "H", cell_2.render
+    assert_equal "H", cell_2.render(true)
+    assert_equal false, cruiser.sunk?
+  end
+
+  def test_render_when_a_ship_is_sunk
+    cell_2 = Cell.new("C3")
+    cruiser = Ship.new("Cruiser", 3)
+    cell_2.place_ship(cruiser)
+    cell_2.fire_upon
+    cell_2.fire_upon
+    cell_2.fire_upon
+    assert_equal true, cruiser.sunk?
+    assert_equal "X", cell_2.render
+    assert_equal "X", cell_2.render(true)
   end
 end
