@@ -63,15 +63,16 @@ class BoardTest < Minitest::Test
 
     expected = [["A", "2"], ["A", "3"], ["A", "4"]]
     assert_equal expected, board.split_coordinates(cruiser, ["A2", "A3", "A4"])
-
-    expected = ["A", "A", "A"]
-    assert_equal expected, board.letter_coord
-
-    expected = [2, 3, 4]
-    assert_equal expected, board.number_coord
+    binding.pry
+    # expected = ["A", "A", "A"]
+    # assert_equal expected, board.store_letter_coords(coordinates)
+    #
+    # expected = [2, 3, 4]
+    # assert_equal expected, board.store_number_coords(coordinates)
   end
 
   def test_it_can_convert_letters_to_ordinals
+    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     board.split_coordinates(cruiser, ["B1", "B4", "A1"])
@@ -81,16 +82,18 @@ class BoardTest < Minitest::Test
   end
 
   def test_coordinates_are_consecutive
+    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     board.split_coordinates(cruiser, ["A2", "A3", "A4"])
-    board.convert_to_ordinals
+    board.convert_to_ordinals(letter_coord)
 
     assert_equal true, board.coordinates_consecutive
 
   end
 
   def test_valid_placement_for_consecutive_coordinates
+    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -101,6 +104,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_valid_placement_for_diagonal_coordinates
+    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
