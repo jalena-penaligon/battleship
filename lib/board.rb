@@ -30,45 +30,40 @@ class Board
   end
 
   def coords_are_consecutive(ship, coordinates)
-    binding.pry
     #splits coordinates into 2 separate objects
     coordinates.map! do |coordinate|
       coordinate.split(//)
     end
 
-    #creates empty arrays to store first and second coordinates
-    first_coord = []
-    second_coord = []
+    #creates empty arrays to store letter and number coordinates
+    letter_coord = []
+    number_coord = []
 
     #creates empty array to store ordinal value of letters
     ordinal = []
 
-    #shovels first and second coordinates into empty arrays & converts number strings to integers
+    #shovels letter and number coordinates into empty arrays & converts number strings to integers
     coordinates.each do |coordinate_pair|
-      first_coord << coordinate_pair[0]
-      second_coord << coordinate_pair[1].to_i
+      letter_coord << coordinate_pair[0]
+      number_coord << coordinate_pair[1].to_i
     end
 
     #convert letters to ordinals and shovels into empty array
-    first_coord.each do |coordinate|
+    letter_coord.each do |coordinate|
       ordinal << coordinate.ord
     end
 
-    if
-      if first_coord.uniq.count == 1 && second_coord.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
-        return true
-      end
-    elsif
-      if second_coord.uniq.count == 1 && ordinal.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
-        return true
-      end
+    test_1 = letter_coord.uniq.count == 1 && number_coord.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
+    test_2 = number_coord.uniq.count == 1 && ordinal.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
+    # binding.pry
+    if test_1 || test_2
+      true
     else
-      return false
+      false
     end
   end
 
   def valid_placement?(ship, coordinates)
-    # ship_length_placement(ship, coordinates) &&
-    coords_are_consecutive(ship, coordinates)
+    ship_length_placement(ship, coordinates) && coords_are_consecutive(ship, coordinates)
   end
 end
