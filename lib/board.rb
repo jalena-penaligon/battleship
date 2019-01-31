@@ -63,7 +63,7 @@ class Board
   end
 
 
-  def are_coordinates_unique_and_consecutive(ship, coordinates)
+  def coordinates_consecutive
 
     test_1 = letter_coord.uniq.count == 1 && number_coord.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
 
@@ -79,8 +79,7 @@ class Board
   def valid_placement?(ship, coordinates)
     split_coordinates(ship, coordinates)
     convert_to_ordinals
-    are_coordinates_unique_and_consecutive(ship, coordinates) &&
-    ship_length_placement(ship, coordinates)
+    coordinates_consecutive && ship_length_placement(ship, coordinates)
 
   end
 end
