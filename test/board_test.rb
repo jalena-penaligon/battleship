@@ -3,6 +3,7 @@ require 'minitest/pride'
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
+require 'pry'
 
 class BoardTest < Minitest::Test
   def test_board_exists
@@ -49,6 +50,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_placement_matches_length_of_ship
+    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -57,7 +59,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_coordinates_are_consecutive
-    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
