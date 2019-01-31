@@ -1,7 +1,5 @@
 class Board
   attr_reader :cells,
-              :letter_coord,
-              :number_coord,
               :ordinal
 
   def initialize
@@ -23,7 +21,7 @@ class Board
       "D3" => Cell.new("D3"),
       "D4" => Cell.new("D4"),
     }
-
+    @ordinal = []
   end
 
   def valid_coordinate?(coordinate)
@@ -34,40 +32,40 @@ class Board
     ship.length == coordinates.count
   end
 
-
-
   def split_coordinates(ship, coordinates)
-    coordinates.map! do |coordinate|
+    coordinates.map do |coordinate|
       coordinate.split(//)
     end
   end
 
-  def store_letter_coords(coordinates)
-    letter_coord = []
-    coordinates.each do |coordinate_pair|
-      letter_coord << coordinate_pair[0]
-    end
-    return letter_coord
+def store_letter_coords(split_coords)
+  letter_coord = []
+  split_coords.each do |coordinate_pair|
+    letter_coord << coordinate_pair[0]
   end
+  return letter_coord
+end
 
-  def store_number_coords(coordinates)
-    number_coord = []
-    coordinates.each do |coordinate_pair|
-      number_coord << coordinate_pair[1].to_i
-    end
-    return number_coord
+def store_number_coords(split_coords)
+  number_coord = []
+  split_coords.each do |coordinate_pair|
+    number_coord << coordinate_pair[1].to_i
   end
+  return number_coord
+end
 
-  def convert_to_ordinals(letter_coord)
-    ordinal = []
+  def convert_to_ordinals
+    @ordinal = []
+
     letter_coord.each do |coordinate|
-      ordinal << coordinate.ord
+      @ordinal << coordinate.ord
       end
-    return ordinal
+      return @ordinal
   end
 
 
-  def coordinates_consecutive(letter_coord, number_coord)
+  def coordinates_consecutive
+
     test_1 = letter_coord.uniq.count == 1 && number_coord.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
 
     test_2 = number_coord.uniq.count == 1 && ordinal.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
@@ -80,12 +78,12 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    # binding.pry
-    coordinates = split_coordinates(ship, coordinates)
-    letter_coord = store_letter_coords(coordinates)
-    number_coord = store_number_coords(coordinates)
-    convert_to_ordinals(letter_coord)
-    coordinates_consecutive(letter_coord, number_coord) && ship_length_placement(ship, coordinates)
+    split_coords = split_coordinates(ship, coordinates)
+    letter_coords = store_letter_coords(split_coords)
+    number_coords = store_number_coords(split_coords)
+    store_coordinates(split_coords)
+    convert_to_ordinals
+    coordinates_consecutive && ship_length_placement(ship, coordinates)
 
   end
 end
