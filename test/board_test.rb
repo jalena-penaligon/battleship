@@ -84,17 +84,28 @@ class BoardTest < Minitest::Test
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     board.split_coordinates(cruiser, ["A2", "A3", "A4"])
+    board.convert_to_ordinals
+
+    assert_equal true, board.coordinates_consecutive
 
   end
 
-  def test_valid_placement
+  def test_valid_placement_for_consecutive_coordinates
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
     assert_equal false, board.valid_placement?(cruiser, ["A1", "A2", "A4"])
     assert_equal false, board.valid_placement?(submarine, ["A1", "C1"])
-    #we switched these to true because theoretically coordinates should be able to work in any order
     assert_equal false, board.valid_placement?(cruiser, ["A3", "A1", "A2"])
     assert_equal false, board.valid_placement?(submarine, ["C1", "B1"])
+  end
+
+  def test_valid_placement_for_diagonal_coordinates
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    assert_equal false, board.valid_placement?(cruiser, ["A1", "B2", "C3"])
+    assert_equal false, board.valid_placement?(submarine, ["C2", "D3"])
   end
 end
