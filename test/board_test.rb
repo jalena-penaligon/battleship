@@ -50,7 +50,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_placement_matches_length_of_ship
-    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -64,7 +63,8 @@ class BoardTest < Minitest::Test
     submarine = Ship.new("Submarine", 2)
     assert_equal false, board.valid_placement?(cruiser, ["A1", "A2", "A4"])
     assert_equal false, board.valid_placement?(submarine, ["A1", "C1"])
-    assert_equal false, board.valid_placement?(cruiser, ["A3", "A2", "A1"])
-    assert_equal false, board.valid_placement?(submarine, ["C1", "B1"])
+    #we switched these to true because theoretically coordinates should be able to work in any order
+    assert_equal true, board.valid_placement?(cruiser, ["A3", "A1", "A2"])
+    assert_equal true, board.valid_placement?(submarine, ["C1", "B1"])
   end
 end
