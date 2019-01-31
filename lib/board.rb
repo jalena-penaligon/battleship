@@ -1,5 +1,9 @@
 class Board
-  attr_reader :cells
+  attr_reader :cells,
+              :letter_coord,
+              :number_coord,
+              :ordinal
+
   def initialize
     @cells = {
       "A1" => Cell.new("A1"),
@@ -19,6 +23,9 @@ class Board
       "D3" => Cell.new("D3"),
       "D4" => Cell.new("D4"),
     }
+    @letter_coord = []
+    @number_coord = []
+    @ordinal = []
   end
 
   def valid_coordinate?(coordinate)
@@ -29,33 +36,39 @@ class Board
     ship.length == coordinates.count
   end
 
-  def coords_are_consecutive(ship, coordinates)
-    #splits coordinates into 2 separate objects
+
+
+  def split_coordinates(ship, coordinates)
     coordinates.map! do |coordinate|
       coordinate.split(//)
     end
 
-    #creates empty arrays to store letter and number coordinates
     letter_coord = []
     number_coord = []
 
-    #creates empty array to store ordinal value of letters
-    ordinal = []
-
-    #shovels letter and number coordinates into empty arrays & converts number strings to integers
     coordinates.each do |coordinate_pair|
-      letter_coord << coordinate_pair[0]
-      number_coord << coordinate_pair[1].to_i
+      @letter_coord << coordinate_pair[0]
+      @number_coord << coordinate_pair[1].to_i
     end
+  end
 
-    #convert letters to ordinals and shovels into empty array
+  def convert_to_ordinals
+    @ordinal = []
+    # binding.pry
+
     letter_coord.each do |coordinate|
-      ordinal << coordinate.ord
-    end
+      @ordinal << coordinate.ord
+      end
+      return @ordinal
+  end
+
+
+  def coordinates_consecutive
 
     test_1 = letter_coord.uniq.count == 1 && number_coord.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
+
     test_2 = number_coord.uniq.count == 1 && ordinal.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
-    # binding.pry
+
     if test_1 || test_2
       true
     else
@@ -64,6 +77,9 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    ship_length_placement(ship, coordinates) && coords_are_consecutive(ship, coordinates)
+    split_coordinates(ship, coordinates)
+    convert_to_ordinals
+    coordinates_consecutive && ship_length_placement(ship, coordinates)
+
   end
 end
