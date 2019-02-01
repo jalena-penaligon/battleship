@@ -37,21 +37,21 @@ class Board
     end
   end
 
-def store_letter_coords(split_coords)
-  letter_coords = []
-  split_coords.each do |coordinate_pair|
-    letter_coords << coordinate_pair[0]
+  def store_letter_coords(split_coords)
+    letter_coords = []
+    split_coords.each do |coordinate_pair|
+      letter_coords << coordinate_pair[0]
+    end
+    return letter_coords
   end
-  return letter_coords
-end
 
-def store_number_coords(split_coords)
-  number_coord = []
-  split_coords.each do |coordinate_pair|
-    number_coord << coordinate_pair[1].to_i
+  def store_number_coords(split_coords)
+    number_coord = []
+    split_coords.each do |coordinate_pair|
+      number_coord << coordinate_pair[1].to_i
+    end
+    return number_coord
   end
-  return number_coord
-end
 
   def convert_to_ordinals(letter_coords)
     ordinal = []
@@ -67,13 +67,13 @@ end
 
   def consecutive?(split_coords)
     # binding.pry
-    split_coords.sort.each_cons(2).all? do |x,y|
+    split_coords.each_cons(2).all? do |x,y|
       y == x + 1
     end == true
   end
 
-  def unique_or_consecutive(unique, consecutive)
-    if unique || consecutive
+  def unique_or_consecutive(validation_1, validation_2)
+    if validation_1 || validation_2
       true
     else
       false
@@ -87,9 +87,10 @@ end
     ordinal = convert_to_ordinals(letter_coords)
     unique_num = unique?(number_coords)
     unique_ord = unique?(ordinal)
-    consecutive_num = consecutive?(split_coords)
-    consecutive_ord = consecutive?(split_coords)
-    unique_or_consecutive(unique, consecutive) && ship_length_placement(ship, coordinates)
-
+    consecutive_num = consecutive?(number_coords)
+    consecutive_ord = consecutive?(ordinal)
+    validation_1 = unique_num && consecutive_ord
+    validation_2 = consecutive_num && unique_ord
+    unique_or_consecutive(validation_1, validation_2) && ship_length_placement(ship, coordinates)
   end
 end
