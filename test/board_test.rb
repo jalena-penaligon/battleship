@@ -10,7 +10,7 @@ class BoardTest < Minitest::Test
   def test_board_exists
     board = Board.new
 
-  assert_instance_of Board, board
+    assert_instance_of Board, board
   end
 
   def test_cells_is_a_hash
@@ -51,7 +51,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_placement_matches_length_of_ship
-    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -116,7 +115,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_coordinates_are_either_unique_or_consecutive
-
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     split_coords = board.split_coordinates(cruiser, ["A2", "A3", "A4"])
@@ -133,7 +131,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_valid_placement_for_consecutive_coordinates
-    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -144,7 +141,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_valid_placement_for_diagonal_coordinates
-    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
