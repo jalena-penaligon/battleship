@@ -84,24 +84,52 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_can_convert_letters_to_ordinals
-    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
-    board.split_coordinates(cruiser, ["B1", "B4", "A1"])
+    split_coords = board.split_coordinates(cruiser, ["B1", "B4", "A1"])
+    letter_coords = board.store_letter_coords(split_coords)
 
     expected = [66, 66, 65]
-    assert_equal expected, board.convert_to_ordinals
+    assert_equal expected, board.convert_to_ordinals(letter_coords)
   end
 
-  def test_coordinates_are_consecutive
-    skip
+  def test_are_coordinates_unique?
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
-    board.split_coordinates(cruiser, ["A2", "A3", "A4"])
-    board.convert_to_ordinals
+    split_coords = board.split_coordinates(cruiser, ["A2", "A3", "A4"])
+    number_coords = board.store_number_coords(split_coords)
+    letter_coords = board.store_letter_coords(split_coords)
+    ordinal = board.convert_to_ordinals(letter_coords)
+    refute board.unique?(number_coords)
+    assert board.unique?(ordinal)
+  end
 
-    assert_equal true, board.coordinates_consecutive
+  def test_are_coordinates_consecutive?
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    split_coords = board.split_coordinates(cruiser, ["A2", "A3", "A4"])
+    number_coords = board.store_number_coords(split_coords)
+    letter_coords = board.store_letter_coords(split_coords)
+    ordinal = board.convert_to_ordinals(letter_coords)
+    assert board.consecutive?(number_coords)
+    refute board.consecutive?(ordinal)
+  end
 
+  def test_coordinates_are_either_unique_or_consecutive
+
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    split_coords = board.split_coordinates(cruiser, ["A2", "A3", "A4"])
+    number_coords = board.store_number_coords(split_coords)
+    letter_coords = board.store_letter_coords(split_coords)
+    ordinal = board.convert_to_ordinals(letter_coords)
+    unique_num = board.unique?(number_coords)
+    unique_ord = board.unique?(ordinal)
+    consecutive_num = board.consecutive?(number_coords)
+    consecutive_ord = board.consecutive?(ordinal)
+
+    assert_equal true, board.unique_or_consecutive(unique_ord, consecutive_num)
+    assert_equal false, board.unique_or_consecutive(unique_num, consecutive_ord)
   end
 
   def test_valid_placement_for_consecutive_coordinates
