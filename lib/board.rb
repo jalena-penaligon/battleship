@@ -1,6 +1,5 @@
 class Board
-  attr_reader :cells,
-              :ordinal
+  attr_reader :cells
 
   def initialize
     @cells = {
@@ -21,7 +20,7 @@ class Board
       "D3" => Cell.new("D3"),
       "D4" => Cell.new("D4"),
     }
-    @ordinal = []
+
   end
 
   def valid_coordinate?(coordinate)
@@ -39,11 +38,11 @@ class Board
   end
 
 def store_letter_coords(split_coords)
-  letter_coord = []
+  letter_coords = []
   split_coords.each do |coordinate_pair|
-    letter_coord << coordinate_pair[0]
+    letter_coords << coordinate_pair[0]
   end
-  return letter_coord
+  return letter_coords
 end
 
 def store_number_coords(split_coords)
@@ -54,23 +53,27 @@ def store_number_coords(split_coords)
   return number_coord
 end
 
-  def convert_to_ordinals
-    @ordinal = []
-
-    letter_coord.each do |coordinate|
-      @ordinal << coordinate.ord
-      end
-      return @ordinal
+  def convert_to_ordinals(letter_coords)
+    ordinal = []
+    letter_coords.each do |coordinate|
+      ordinal << coordinate.ord
+    end
+    return ordinal
   end
 
+  def unique?(split_coords)
+    split_coords.uniq.count == 1
+  end
 
-  def coordinates_consecutive
+  def consecutive?(split_coords)
+    # binding.pry
+    split_coords.sort.each_cons(2).all? do |x,y|
+      y == x + 1
+    end == true
+  end
 
-    test_1 = letter_coord.uniq.count == 1 && number_coord.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
-
-    test_2 = number_coord.uniq.count == 1 && ordinal.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
-
-    if test_1 || test_2
+  def unique_or_consecutive(unique, consecutive)
+    if unique || consecutive
       true
     else
       false
@@ -81,9 +84,12 @@ end
     split_coords = split_coordinates(ship, coordinates)
     letter_coords = store_letter_coords(split_coords)
     number_coords = store_number_coords(split_coords)
-    store_coordinates(split_coords)
-    convert_to_ordinals
-    coordinates_consecutive && ship_length_placement(ship, coordinates)
+    ordinal = convert_to_ordinals(letter_coords)
+    unique_num = unique?(number_coords)
+    unique_ord = unique?(ordinal)
+    consecutive_num = consecutive?(split_coords)
+    consecutive_ord = consecutive?(split_coords)
+    unique_or_consecutive(unique, consecutive) && ship_length_placement(ship, coordinates)
 
   end
 end
