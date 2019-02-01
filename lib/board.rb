@@ -58,14 +58,18 @@ class Board
 
     letter_coord.each do |coordinate|
       @ordinal << coordinate.ord
-      end
-      return @ordinal
+    end
+    return @ordinal
   end
 
 
   def coordinates_consecutive
 
     test_1 = letter_coord.uniq.count == 1 && number_coord.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
+
+    # horizontal_valid = letters_same && numbers_consecutive
+    # vertical_valid = numbers_same && letters_consecutive
+    # horizontal_valid || vertical_valid
 
     test_2 = number_coord.uniq.count == 1 && ordinal.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
 

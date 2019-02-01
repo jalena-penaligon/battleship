@@ -27,7 +27,7 @@ class Cell
   end
 
   def render(player_input = false)
-    if player_input = false
+    if player_input == false
        if fired_upon? == false
          return "."
        elsif fired_upon? == true && empty? == true
@@ -38,6 +38,7 @@ class Cell
          return "X"
        end
     else
+
       if fired_upon? == false
         return "."
       elsif fired_upon? == true && empty? == true

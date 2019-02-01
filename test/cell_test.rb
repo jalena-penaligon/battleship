@@ -10,6 +10,12 @@ class CellTest < Minitest::Test
     assert_instance_of Cell, cell
   end
 
+  def test_it_has_a_coordinate
+    cell = Cell.new("B4")
+
+    assert_equal "B4", cell.coordinate
+  end
+
   def test_does_it_have_a_ship
     cell = Cell.new("B4")
 
