@@ -1,3 +1,4 @@
+
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/ship'
@@ -9,7 +10,7 @@ class BoardTest < Minitest::Test
   def test_board_exists
     board = Board.new
 
-  assert_instance_of Board, board
+    assert_instance_of Board, board
   end
 
   def test_cells_is_a_hash
@@ -57,37 +58,76 @@ class BoardTest < Minitest::Test
     assert_equal false, board.valid_placement?(submarine, ["A2", "A3", "A4"])
   end
 
-  def test_split_and_store_coordinates
+  def test_it_can_split_coordinates
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
 
     expected = [["A", "2"], ["A", "3"], ["A", "4"]]
     assert_equal expected, board.split_coordinates(cruiser, ["A2", "A3", "A4"])
+  end
 
+  def test_it_can_store_letter_coords
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    split_coords = board.split_coordinates(cruiser, ["A2", "A3", "A4"])
     expected = ["A", "A", "A"]
-    assert_equal expected, board.letter_coord
+    assert_equal expected, board.store_letter_coords(split_coords)
+  end
 
+  def test_it_can_store_number_coords
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    split_coords = board.split_coordinates(cruiser, ["A2", "A3", "A4"])
     expected = [2, 3, 4]
-    assert_equal expected, board.number_coord
+    assert_equal expected, board.store_number_coords(split_coords)
   end
 
   def test_it_can_convert_letters_to_ordinals
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
-    board.split_coordinates(cruiser, ["B1", "B4", "A1"])
+    split_coords = board.split_coordinates(cruiser, ["B1", "B4", "A1"])
+    letter_coords = board.store_letter_coords(split_coords)
 
     expected = [66, 66, 65]
-    assert_equal expected, board.convert_to_ordinals
+    assert_equal expected, board.convert_to_ordinals(letter_coords)
   end
 
-  def test_coordinates_are_consecutive
+  def test_are_coordinates_unique?
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
-    board.split_coordinates(cruiser, ["A2", "A3", "A4"])
-    board.convert_to_ordinals
+    split_coords = board.split_coordinates(cruiser, ["A2", "A3", "A4"])
+    number_coords = board.store_number_coords(split_coords)
+    letter_coords = board.store_letter_coords(split_coords)
+    ordinal = board.convert_to_ordinals(letter_coords)
+    refute board.unique?(number_coords)
+    assert board.unique?(ordinal)
+  end
 
-    assert_equal true, board.coordinates_consecutive
+  def test_are_coordinates_consecutive?
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    split_coords = board.split_coordinates(cruiser, ["A2", "A3", "A4"])
+    number_coords = board.store_number_coords(split_coords)
+    letter_coords = board.store_letter_coords(split_coords)
+    ordinal = board.convert_to_ordinals(letter_coords)
+    assert board.consecutive?(number_coords)
+    refute board.consecutive?(ordinal)
+  end
 
+  def test_coordinates_are_either_unique_or_consecutive
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    split_coords = board.split_coordinates(cruiser, ["A2", "A3", "A4"])
+    number_coords = board.store_number_coords(split_coords)
+    letter_coords = board.store_letter_coords(split_coords)
+    ordinal = board.convert_to_ordinals(letter_coords)
+    unique_num = board.unique?(number_coords)
+    unique_ord = board.unique?(ordinal)
+    consecutive_num = board.consecutive?(number_coords)
+    consecutive_ord = board.consecutive?(ordinal)
+
+    assert_equal true, board.unique_or_consecutive(unique_ord, consecutive_num)
+    assert_equal false, board.unique_or_consecutive(unique_num, consecutive_ord)
   end
 
   def test_valid_placement_for_consecutive_coordinates

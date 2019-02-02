@@ -1,8 +1,5 @@
 class Board
-  attr_reader :cells,
-              :letter_coord,
-              :number_coord,
-              :ordinal
+  attr_reader :cells
 
   def initialize
     @cells = {
@@ -23,9 +20,7 @@ class Board
       "D3" => Cell.new("D3"),
       "D4" => Cell.new("D4"),
     }
-    @letter_coord = []
-    @number_coord = []
-    @ordinal = []
+
   end
 
   def valid_coordinate?(coordinate)
@@ -36,40 +31,49 @@ class Board
     ship.length == coordinates.count
   end
 
-
-
   def split_coordinates(ship, coordinates)
-    coordinates.map! do |coordinate|
+    coordinates.map do |coordinate|
       coordinate.split(//)
     end
+  end
 
-    letter_coord = []
-    number_coord = []
-
-    coordinates.each do |coordinate_pair|
-      @letter_coord << coordinate_pair[0]
-      @number_coord << coordinate_pair[1].to_i
+  def store_letter_coords(split_coords)
+    letter_coords = []
+    split_coords.each do |coordinate_pair|
+      letter_coords << coordinate_pair[0]
     end
+    return letter_coords
   end
 
-  def convert_to_ordinals
-    @ordinal = []
+  def store_number_coords(split_coords)
+    number_coord = []
+    split_coords.each do |coordinate_pair|
+      number_coord << coordinate_pair[1].to_i
+    end
+    return number_coord
+  end
+
+  def convert_to_ordinals(letter_coords)
+    ordinal = []
+    letter_coords.each do |coordinate|
+      ordinal << coordinate.ord
+    end
+    return ordinal
+  end
+
+  def unique?(split_coords)
+    split_coords.uniq.count == 1
+  end
+
+  def consecutive?(split_coords)
     # binding.pry
-
-    letter_coord.each do |coordinate|
-      @ordinal << coordinate.ord
-      end
-      return @ordinal
+    split_coords.each_cons(2).all? do |x,y|
+      y == x + 1
+    end == true
   end
 
-
-  def coordinates_consecutive
-
-    test_1 = letter_coord.uniq.count == 1 && number_coord.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
-
-    test_2 = number_coord.uniq.count == 1 && ordinal.sort.each_cons(2).all? { |x,y| y == x + 1 } == true
-
-    if test_1 || test_2
+  def unique_or_consecutive(validation_1, validation_2)
+    if validation_1 || validation_2
       true
     else
       false
@@ -77,9 +81,16 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    split_coordinates(ship, coordinates)
-    convert_to_ordinals
-    coordinates_consecutive && ship_length_placement(ship, coordinates)
-
+    split_coords = split_coordinates(ship, coordinates)
+    letter_coords = store_letter_coords(split_coords)
+    number_coords = store_number_coords(split_coords)
+    ordinal = convert_to_ordinals(letter_coords)
+    unique_num = unique?(number_coords)
+    unique_ord = unique?(ordinal)
+    consecutive_num = consecutive?(number_coords)
+    consecutive_ord = consecutive?(ordinal)
+    validation_1 = unique_num && consecutive_ord
+    validation_2 = consecutive_num && unique_ord
+    unique_or_consecutive(validation_1, validation_2) && ship_length_placement(ship, coordinates)
   end
 end
