@@ -125,24 +125,29 @@ class Board
     string_part_2 = []
     string_part_3 = "\n"
     horiz_coord.each do |num|
-      string_part_2 << "#{num} "
+    string_part_2 << "#{num} "
     end
     return string_part_1 + string_part_2.join.to_s + string_part_3
-
   end
 
-  def render_vertical
+  def match_vertical_cells
     vert_coord = split_vert_coordinates
-    
+    board_render = render_horizontal
+    vert_rend = []
+    value = vert_coord.map do |letter|
+      board_render << letter + " "
+      @cells.select do |coordinates, cell_object|
+        if coordinates.include?(letter)
+          board_render << @cells[coordinates].render + " "
+        end
+      end
+      board_render << "\n"
+    end
+    return board_render
   end
+
 
   def render
 
-
-
-    # @cells.map do |cell, cell_object|
-    #   @cells[cell].render
-    # end
   end
-
 end
