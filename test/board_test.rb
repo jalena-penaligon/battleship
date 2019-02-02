@@ -188,7 +188,7 @@ class BoardTest < Minitest::Test
     assert_equal ["A", "B", "C", "D"], board.split_vert_coordinates
   end
 
-  def test_print_1st_line
+  def test_print_header
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
@@ -196,6 +196,18 @@ class BoardTest < Minitest::Test
     expected = "  1 2 3 4 \n"
     assert_equal expected, board.render_horizontal
   end
+
+  def test_match_vertical_cells
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    # actual = board.match_vertical_cells[0].keys
+    # expected = ["A1", "A2", "A3", "A4"]
+    actual = board.match_vertical_cells
+    binding.pry
+    assert_equal expected, actual
+  end
+
 
   def test_the_board_renders
     skip
