@@ -1,7 +1,5 @@
 class Board
   attr_reader :cells,
-              :letter_coord,
-              :number_coord,
               :ordinal
 
   def initialize
@@ -23,8 +21,6 @@ class Board
       "D3" => Cell.new("D3"),
       "D4" => Cell.new("D4"),
     }
-    @letter_coord = []
-    @number_coord = []
     @ordinal = []
   end
 
@@ -36,25 +32,30 @@ class Board
     ship.length == coordinates.count
   end
 
-
-
   def split_coordinates(ship, coordinates)
-    coordinates.map! do |coordinate|
+    coordinates.map do |coordinate|
       coordinate.split(//)
-    end
-
-    letter_coord = []
-    number_coord = []
-
-    coordinates.each do |coordinate_pair|
-      @letter_coord << coordinate_pair[0]
-      @number_coord << coordinate_pair[1].to_i
     end
   end
 
+def store_letter_coords(split_coords)
+  letter_coord = []
+  split_coords.each do |coordinate_pair|
+    letter_coord << coordinate_pair[0]
+  end
+  return letter_coord
+end
+
+def store_number_coords(split_coords)
+  number_coord = []
+  split_coords.each do |coordinate_pair|
+    number_coord << coordinate_pair[1].to_i
+  end
+  return number_coord
+end
+
   def convert_to_ordinals
     @ordinal = []
-    # binding.pry
 
     letter_coord.each do |coordinate|
       @ordinal << coordinate.ord
@@ -81,7 +82,10 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    split_coordinates(ship, coordinates)
+    split_coords = split_coordinates(ship, coordinates)
+    letter_coords = store_letter_coords(split_coords)
+    number_coords = store_number_coords(split_coords)
+    store_coordinates(split_coords)
     convert_to_ordinals
     coordinates_consecutive && ship_length_placement(ship, coordinates)
 
