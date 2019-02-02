@@ -80,6 +80,12 @@ class Board
     end
   end
 
+  def overlap?(ship, coordinates)
+    coordinates.all? do |cell|
+      @cells[cell].empty?
+    end
+  end
+
   def valid_placement?(ship, coordinates)
     split_coords = split_coordinates(ship, coordinates)
     letter_coords = store_letter_coords(split_coords)
@@ -91,6 +97,14 @@ class Board
     consecutive_ord = consecutive?(ordinal)
     validation_1 = unique_num && consecutive_ord
     validation_2 = consecutive_num && unique_ord
-    unique_or_consecutive(validation_1, validation_2) && ship_length_placement(ship, coordinates)
+    unique_or_consecutive(validation_1, validation_2) && ship_length_placement(ship, coordinates) && overlap?(ship, coordinates)
   end
+
+  def place(ship, coordinates)
+    # binding.pry
+    coordinates.each do |cell|
+      @cells[cell].place_ship(ship)
+    end
+  end
+
 end
