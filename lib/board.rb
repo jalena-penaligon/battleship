@@ -133,7 +133,6 @@ class Board
   def match_vertical_cells
     vert_coord = split_vert_coordinates
     board_render = render_horizontal
-    vert_rend = []
     value = vert_coord.map do |letter|
       board_render << letter + " "
       @cells.select do |coordinates, cell_object|
