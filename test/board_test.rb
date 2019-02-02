@@ -208,6 +208,16 @@ class BoardTest < Minitest::Test
     assert_equal expected, actual
   end
 
+  def test_render_changes_as_fired_upon
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.cells["A1"].fire_upon
+    actual = board.match_vertical_cells
+    binding.pry
+    assert_equal expected, actual
+  end
+
 
   def test_the_board_renders
     skip
