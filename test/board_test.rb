@@ -167,8 +167,43 @@ class BoardTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
     submarine = Ship.new("Submarine", 2)
-    
+
     assert_equal false, board.valid_placement?(submarine, ["A1", "B1"])
     assert_equal true, board.valid_placement?(submarine, ["B1", "B2"])
+  end
+
+  def test_split_horiz_coordinates
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+
+    assert_equal [1, 2, 3, 4], board.split_horiz_coordinates
+  end
+
+  def test_split_vert_coordinates
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+
+    assert_equal ["A", "B", "C", "D"], board.split_vert_coordinates
+  end
+
+  def test_print_1st_line
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+
+    expected = "  1 2 3 4 \n"
+    assert_equal expected, board.render_horizontal
+  end
+
+  def test_the_board_renders
+    skip
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+
+    expected = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+    assert_equal expected, board.render
   end
 end
