@@ -11,27 +11,26 @@ class Game
     select = ship_type.length
     random = []
     key_1 = keys.sample
-    random << key_1
+    random.unshift(key_1)
     key_index = keys.index(key_1)
-    (select - 1).times do
-      random << keys[key_index += 1]
-    end
-    loop do
-      if @comp_board.valid_placement?(ship_type, random) == true
-          random.each do |cell|
-            @comp_board.cells[cell].place_ship(ship_type)
-          end
-        break
-      else @comp_board.valid_placement?(ship_type, random) == false
-        random = []
-        key_1 = keys.sample
-        random << key_1
-        key_index = keys.index(key_1)
-        (select - 1).times do
-          random << keys[key_index += 1]
-        end
-        return random
+      (select - 1).times do
+      random.unshift(keys[key_index -= 1])
       end
+    valid_placement = @comp_board.valid_placement?(ship_type, random)
+
+    until valid_placement == true
+
+      random = []
+      key_1 = keys.sample
+      random.unshift(key_1)
+      key_index = keys.index(key_1)
+      (select - 1).times do
+        random.unshift(keys[key_index -= 1])
+      end
+      valid_placement = @comp_board.valid_placement?(ship_type, random)
+    end
+    random.each do |cell|
+      @comp_board.cells[cell].place_ship(ship_type)
     end
   end
 end
