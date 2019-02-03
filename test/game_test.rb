@@ -46,10 +46,7 @@ class GameTest < Minitest::Test
     submarine = Ship.new("Submarine", 2)
     game.comp_placement(cruiser)
     game.comp_placement(submarine)
-    actual = comp_board.render(true)
-    binding.pry
-
-    expected = comp_board.render.include?("S")
+    expected = comp_board.render(true).include?("S")
     assert_equal true, expected
   end
 
