@@ -197,15 +197,24 @@ class BoardTest < Minitest::Test
     assert_equal expected, board.render_horizontal
   end
 
-  def test_match_vertical_cells
+  def test_the_board_renders
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
     # actual = board.match_vertical_cells[0].keys
     # expected = ["A1", "A2", "A3", "A4"]
-    actual = board.match_vertical_cells
-    binding.pry
+    actual = board.render
+
     assert_equal expected, actual
+  end
+
+  def test_the_board_renders
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+
+    actual = board.render(true)
+    expected = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+    assert_equal expected, board.render
   end
 
   def test_render_changes_as_fired_upon
@@ -213,19 +222,14 @@ class BoardTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
     board.cells["A1"].fire_upon
-    actual = board.match_vertical_cells
-    binding.pry
+    actual = board.render
+    expected =  "  1 2 3 4 \nA H . . . \nB . . . . \nC . . . . \nD . . . . \n"
+    assert_equal expected, actual
+
+    board.cells["B4"].fire_upon
+    actual = board.render
+    expected =  "  1 2 3 4 \nA H . . . \nB . . . M \nC . . . . \nD . . . . \n"
     assert_equal expected, actual
   end
 
-
-  def test_the_board_renders
-    skip
-    board = Board.new
-    cruiser = Ship.new("Cruiser", 3)
-    board.place(cruiser, ["A1", "A2", "A3"])
-
-    expected = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
-    assert_equal expected, board.render
-  end
 end

@@ -27,9 +27,6 @@ class Cell
   end
 
   def render(player_input = false)
-    #user input = false & fired_upon? is false (does not matter if it has a ship or not)
-    #user input = true & empty? is true
-
     if fired_upon? == false && player_input == false
       return "."
     elsif player_input == true && empty? == true && fired_upon? == false
@@ -43,6 +40,5 @@ class Cell
     elsif fired_upon? == false && empty? == false && player_input == true
       return "S"
     end
-
   end
 end
