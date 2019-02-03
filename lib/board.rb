@@ -31,7 +31,7 @@ class Board
     ship.length == coordinates.count
   end
 
-  def split_coordinates(ship, coordinates)
+  def split_coordinates(ship = nil, coordinates)
     coordinates.map do |coordinate|
       coordinate.split(//)
     end
@@ -107,4 +107,46 @@ class Board
     end
   end
 
+  def split_horiz_coordinates
+    board_number_coords = @cells.keys
+    split_coords = split_coordinates(board_number_coords)
+    board_number_coords = store_number_coords(split_coords).uniq
+  end
+
+  def split_vert_coordinates
+    board_letter_coords = @cells.keys
+    split_coords = split_coordinates(board_letter_coords)
+    board_letter_coords = store_letter_coords(split_coords).uniq
+  end
+
+  def render_horizontal
+    horiz_coord = split_horiz_coordinates
+    string_part_1 = "  "
+    string_part_2 = []
+    string_part_3 = "\n"
+    horiz_coord.each do |num|
+    string_part_2 << "#{num} "
+    end
+    return string_part_1 + string_part_2.join.to_s + string_part_3
+  end
+
+  def match_vertical_cells
+    vert_coord = split_vert_coordinates
+    board_render = render_horizontal
+    value = vert_coord.map do |letter|
+      board_render << letter + " "
+      @cells.select do |coordinates, cell_object|
+        if coordinates.include?(letter)
+          board_render << @cells[coordinates].render + " "
+        end
+      end
+      board_render << "\n"
+    end
+    return board_render
+  end
+
+
+  def render
+
+  end
 end
