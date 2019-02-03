@@ -30,6 +30,7 @@ class Game
         (select - 1).times do
           random << keys[key_index += 1]
         end
+        return random
       end
     end
   end
