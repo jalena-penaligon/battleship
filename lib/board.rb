@@ -137,7 +137,7 @@ class Board
       board_render << letter + " "
       @cells.select do |coordinates, cell_object|
         if coordinates.include?(letter)
-          board_render << @cells[coordinates].render + " "
+          board_render << @cells[coordinates].render(player_input) + " "
         end
       end
       board_render << "\n"
