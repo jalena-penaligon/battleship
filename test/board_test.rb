@@ -211,8 +211,8 @@ class BoardTest < Minitest::Test
   def test_the_board_renders
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
-    board.place(cruiser, ["A1", "A2", "A3"])
 
+    actual = board.render(true)
     expected = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
     assert_equal expected, board.render
   end
@@ -225,7 +225,7 @@ class BoardTest < Minitest::Test
     actual = board.render
     expected =  "  1 2 3 4 \nA H . . . \nB . . . . \nC . . . . \nD . . . . \n"
     assert_equal expected, actual
-  
+
     board.cells["B4"].fire_upon
     actual = board.render
     expected =  "  1 2 3 4 \nA H . . . \nB . . . M \nC . . . . \nD . . . . \n"
