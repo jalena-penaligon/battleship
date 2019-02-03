@@ -130,7 +130,7 @@ class Board
     return string_part_1 + string_part_2.join.to_s + string_part_3
   end
 
-  def match_vertical_cells
+  def render(player_input = false)
     vert_coord = split_vert_coordinates
     board_render = render_horizontal
     value = vert_coord.map do |letter|
@@ -145,8 +145,4 @@ class Board
     return board_render
   end
 
-
-  def render
-
-  end
 end
