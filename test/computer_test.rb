@@ -52,8 +52,8 @@ class ComputerTest < Minitest::Test
     computer.validate_random_placement(submarine)
     computer.comp_placement(cruiser)
     computer.comp_placement(submarine)
-    expected = board.render(true).include?("S")
-    assert_equal true, expected
+    actual = board.render(true).include?("S")
+    assert_equal true, actual
   end
 
 end
