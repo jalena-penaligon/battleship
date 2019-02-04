@@ -33,4 +33,15 @@ class Game
       @comp_board.cells[cell].place_ship(ship_type)
     end
   end
+
+  def user_placement(ship_type, user_input)
+    until @user_board.valid_placement?(ship_type, user_input) == true
+      puts "Those are invalid coordinates. Please try again."
+      user_input = gets.chomp
+    end
+
+    user_input.each do |coordinate|
+      @user_board.cells[coordinate].place_ship(ship_type)
+    end
+  end
 end

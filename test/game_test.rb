@@ -29,14 +29,41 @@ class GameTest < Minitest::Test
     assert_equal actual, expected
   end
 
-  def test_computer_makes_a_user_board
-    skip
+  def test_setup_a_player_board
     comp_board = Board.new
     user_board = Board.new
     game = Game.new(comp_board, user_board)
+    cruiser = Ship.new("Cruiser", 3)
+    user_input = ["A1", "A2", "A3"]
 
-    assert_equal
+    assert_equal true, user_board.valid_placement?(cruiser, user_input)
   end
+
+  def test_will_not_place_invalid_coordinates
+    comp_board = Board.new
+    user_board = Board.new
+    game = Game.new(comp_board, user_board)
+    cruiser = Ship.new("Cruiser", 3)
+    user_input = ["B1", "A2", "A3"]
+    actual = user_board.valid_placement?(cruiser, user_input)
+    binding.pry
+
+    assert_equal false, user_board.valid_placement?(cruiser, user_input)
+  end
+
+  def test_player_board_renders_after_placing_ship
+    comp_board = Board.new
+    user_board = Board.new
+    game = Game.new(comp_board, user_board)
+    cruiser = Ship.new("Cruiser", 3)
+    user_input = ["A1", "A2", "A3"]
+    game.user_placement(cruiser, user_input)
+
+    expected = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
+
+    assert_equal expected, user_board.render(true)
+  end
+
 
   def test_computer_makes_a_computer_board_at_random
     comp_board = Board.new
