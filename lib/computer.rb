@@ -31,8 +31,4 @@ class Computer
       @board.cells[cell].place_ship(ship_type)
     end
   end
-
-  
-
-
 end

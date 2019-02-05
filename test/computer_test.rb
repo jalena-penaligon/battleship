@@ -1,9 +1,11 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require './lib/game'
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
 require './lib/computer'
+require './lib/player'
 require 'pry'
 
 class ComputerTest < Minitest::Test
@@ -55,5 +57,4 @@ class ComputerTest < Minitest::Test
     actual = board.render(true).include?("S")
     assert_equal true, actual
   end
-
 end
