@@ -5,7 +5,7 @@ class Computer
   end
 
   def select_coordinates(ship_type)
-    coord_keys = @board.cells.keys
+    coord_keys = Board::CELLS.keys
     select = ship_type.length
     random_coords = []
     key_1 = coord_keys.sample
@@ -28,7 +28,7 @@ class Computer
   def comp_placement(ship_type)
     random_coords = validate_random_placement(ship_type)
     random_coords.each do |cell|
-      @board.cells[cell].place_ship(ship_type)
+      Board::CELLS[cell].place_ship(ship_type)
     end
   end
 end

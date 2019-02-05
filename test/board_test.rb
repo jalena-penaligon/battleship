@@ -16,25 +16,25 @@ class BoardTest < Minitest::Test
   def test_cells_is_a_hash
     board = Board.new
 
-    assert_equal Hash, board.cells.class
+    assert_equal Hash, Board::CELLS.class
   end
 
   def test_keys_point_to_cell_object
     board = Board.new
 
-    assert_equal Cell, board.cells["A1"].class
+    assert_equal Cell, Board::CELLS["A1"].class
   end
 
   def test_there_are_16_keys
     board = Board.new
 
-    assert_equal 16, board.cells.keys.count
+    assert_equal 16, Board::CELLS.keys.count
   end
 
   def test_there_are_16_pairs
     board = Board.new
 
-    assert_equal 16, board.cells.values.count
+    assert_equal 16, Board::CELLS.values.count
   end
 
   def test_that_coordinates_are_true
@@ -153,9 +153,9 @@ class BoardTest < Minitest::Test
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
-    cell_1 = board.cells["A1"]
-    cell_2 = board.cells["A2"]
-    cell_3 = board.cells["A3"]
+    cell_1 = Board::CELLS["A1"]
+    cell_2 = Board::CELLS["A2"]
+    cell_3 = Board::CELLS["A3"]
     assert_equal cruiser, cell_1.ship
     assert_equal cruiser, cell_2.ship
     assert_equal cruiser, cell_3.ship
@@ -221,12 +221,12 @@ class BoardTest < Minitest::Test
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
-    board.cells["A1"].fire_upon
+    Board::CELLS["A1"].fire_upon
     actual = board.render
     expected =  "  1 2 3 4 \nA H . . . \nB . . . . \nC . . . . \nD . . . . \n"
     assert_equal expected, actual
 
-    board.cells["B4"].fire_upon
+    Board::CELLS["B4"].fire_upon
     actual = board.render
     expected =  "  1 2 3 4 \nA H . . . \nB . . . M \nC . . . . \nD . . . . \n"
     assert_equal expected, actual
