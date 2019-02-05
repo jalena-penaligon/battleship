@@ -11,3 +11,8 @@ cruiser = Ship.new("Cruiser", 3)
 
 user_input = gets.chomp
 game.user_placement(cruiser, user_input)
+
+
+#get to game = Game.new
+#game.start = method that starts game
+#all object creation happens after this point. (initialize)

@@ -1,11 +1,12 @@
 class Computer
-  attr_reader :board
-  def initialize(board)
-    @board = board
+  # attr_reader :computer_board
+  def initialize(computer_board, player_board)
+    @computer_board = computer_board
+    @player_board = player_board
   end
 
   def select_coordinates(ship_type)
-    coord_keys = @board.cells.keys
+    coord_keys = @computer_board.cells.keys
     select = ship_type.length
     random_coords = []
     key_1 = coord_keys.sample
@@ -19,7 +20,7 @@ class Computer
 
   def validate_random_placement(ship_type)
     random_coords = select_coordinates(ship_type)
-    until @board.valid_placement?(ship_type, random_coords) == true
+    until @computer_board.valid_placement?(ship_type, random_coords) == true
       random_coords = select_coordinates(ship_type)
     end
     return random_coords
@@ -28,7 +29,7 @@ class Computer
   def comp_placement(ship_type)
     random_coords = validate_random_placement(ship_type)
     random_coords.each do |cell|
-      @board.cells[cell].place_ship(ship_type)
+      @computer_board.cells[cell].place_ship(ship_type)
     end
   end
 end
