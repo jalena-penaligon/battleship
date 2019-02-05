@@ -4,50 +4,65 @@ require './lib/ship'
 require './lib/cell'
 require './lib/board'
 require './lib/game'
+require './lib/computer'
+require './lib/player'
 require 'pry'
 
 class GameTest < Minitest::Test
   def test_game_exists
-    comp_board = Board.new
-    user_board = Board.new
-    game = Game.new(comp_board, user_board)
-
+    computer = Board.new
+    player = Board.new
+    game = Game.new(computer, player)
 
     assert_instance_of Game, game
   end
 
-  def test_computer_makes_a_comp_board
-    comp_board = Board.new
-    user_board = Board.new
-    game = Game.new(comp_board, user_board)
-    cruiser = Ship.new("Cruiser", 3)
-    submarine = Ship.new("Submarine", 2)
-    comp_board.place(cruiser, ["A1", "A2", "A3"])
-    comp_board.place(submarine, ["C1", "C2"])
-    actual = comp_board.render(true)
-    expected = "  1 2 3 4 \nA S S S . \nB . . . . \nC S S . . \nD . . . . \n"
-    assert_equal actual, expected
+  def test_computer_test_turn
+    computer = Board.new
+    player = Board.new
+    game = Game.new(computer, player)
+    guess = game.generate_random_coord
+    actual = player.cells.keys.include?(guess)
+
+    assert_equal true, actual
   end
 
-  def test_computer_makes_a_user_board
-    skip
-    comp_board = Board.new
-    user_board = Board.new
-    game = Game.new(comp_board, user_board)
 
-    assert_equal
-  end
 
-  def test_computer_makes_a_computer_board_at_random
-    comp_board = Board.new
-    user_board = Board.new
-    game = Game.new(comp_board, user_board)
+  def test_computer_can_take_turns
+    board = Board.new
+    computer = Computer.new(board)
+    player = Player.new(board)
+    game = Game.new(computer, player)
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
-    game.comp_placement(cruiser)
-    game.comp_placement(submarine)
-    expected = comp_board.render(true).include?("S")
-    assert_equal true, expected
+
+    computer.comp_placement(cruiser)
+    computer.comp_placement(submarine)
+    player.player_placement(cruiser, ["B2", "B3", "B4"])
+    player.player_placement(submarine, ["C3", "D3"])
+    game.computer_take_turn("D3")
+
+    actual = player.board.cells["D3"].fired_upon?
+    assert_equal true, actual
+  end
+
+  def test_player_can_take_turns
+    board = Board.new
+    computer = Computer.new(board)
+    player = Player.new(board)
+    game = Game.new(computer, player)
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    computer.comp_placement(cruiser)
+    computer.comp_placement(submarine)
+    player.player_placement(cruiser, ["B2", "B3", "B4"])
+    player.player_placement(submarine, ["C3", "D3"])
+    game.player_take_turn("D3")
+
+    actual = computer.board.cells["D3"].fired_upon?
+    assert_equal true, actual
   end
 
 end
