@@ -17,5 +17,4 @@ class Ship
   def hit
     @health_count -= 1
   end
-
 end
