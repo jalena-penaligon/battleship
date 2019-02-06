@@ -76,8 +76,4 @@ class Game
       puts "I won!"
     end
   end
-
-
-
-
 end

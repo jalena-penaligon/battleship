@@ -66,7 +66,6 @@ class Board
   end
 
   def consecutive?(split_coords)
-    # binding.pry
     split_coords.each_cons(2).all? do |x,y|
       y == x + 1
     end == true
@@ -101,7 +100,6 @@ class Board
   end
 
   def place(ship, coordinates)
-    # binding.pry
     coordinates.each do |cell|
       @cells[cell].place_ship(ship)
     end

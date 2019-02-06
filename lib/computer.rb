@@ -1,5 +1,4 @@
 class Computer
-  # attr_reader :computer_board
   def initialize(computer_board, player_board)
     @computer_board = computer_board
     @player_board = player_board
@@ -43,7 +42,4 @@ class Computer
     @player_board.cells[guess].fire_upon
     return guess
   end
-
-
-
 end

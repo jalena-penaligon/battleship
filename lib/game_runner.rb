@@ -120,6 +120,3 @@ while comp_health != 0 && player_health != 0
 end
 
 game.end_game
-#get to game = Game.new
-#game.start = method that starts game
-#all object creation happens after this point. (initialize)
