@@ -39,4 +39,13 @@ class PlayerTest < Minitest::Test
     actual = player_board.render(true).include?("S")
     assert_equal true, actual
   end
+
+  def test_player_takes_turn
+    computer_board = Board.new
+    player_board = Board.new
+    player = Player.new(player_board, computer_board)
+    player.take_turn("B4")
+
+    assert_equal true, computer_board.cells["B4"].fired_upon?
+  end
 end

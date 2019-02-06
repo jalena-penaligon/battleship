@@ -32,4 +32,20 @@ class Computer
       @computer_board.cells[cell].place_ship(ship_type)
     end
   end
+
+  def random_guess
+    keys = @player_board.cells.keys
+    guess = keys.sample
+    keys.delete(guess)
+    return guess
+  end
+
+  def take_turn
+    guess = random_guess
+    @player_board.cells[guess].fire_upon
+    return guess
+  end
+
+
+
 end
