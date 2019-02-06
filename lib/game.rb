@@ -10,7 +10,6 @@ class Game
     @player = Player.new(@player_board, @computer_board)
   end
 
-
   def start
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -25,22 +24,24 @@ class Game
     @player.player_placement(submarine, sub_coords)
   end
 
+  def health(board)
+    total_health = 0
+      board.cells.each do |coordinate, cell|
+        if cell.empty? == false
+          total_health += cell.ship.health
+        end
+      end
+    return total_health
+  end
+
+  def turn(coordinate)
+    @player.take_turn(coordinate)
+    @computer.take_turn
+  end
+
+  def feedback
+
+  end
 
 
-
-  # def generate_random_coord
-  #   options = player.cells.keys
-  #   guess = options.shuffle.pop
-  #   options.delete(guess)
-  #   return guess
-  # end
-  #
-  # def computer_take_turn(coordinate)
-  #   coordinate = generate_random_coord
-  #   player.board.cells[coordinate].fire_upon
-  # end
-  #
-  # def player_take_turn(coordinate)
-  #   computer.board.cells[coordinate].fire_upon
-  # end
 end

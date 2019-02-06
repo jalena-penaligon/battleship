@@ -64,4 +64,13 @@ class ComputerTest < Minitest::Test
     actual = computer_board.render(true).include?("S")
     assert_equal true, actual
   end
+
+  def test_computer_takes_random_turn
+    player_board = Board.new
+    computer_board = Board.new
+    computer = Computer.new(computer_board, player_board)
+    computer.take_turn
+
+    assert_equal true, player_board.render.include?("M")
+  end
 end

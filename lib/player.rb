@@ -15,4 +15,8 @@ class Player
       @player_board.cells[cell].place_ship(ship_type)
     end
   end
+
+  def take_turn(coordinate)
+    @computer_board.cells[coordinate].fire_upon
+  end
 end

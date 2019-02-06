@@ -57,53 +57,37 @@ class GameTest < Minitest::Test
     assert_equal true, actual
   end
 
+  def test_board_health
+    game = Game.new
+    computer_board = Board.new
+    player_board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+    computer_board.place(cruiser, ["A1", "A2", "A3"])
+    computer_board.place(submarine, ["C1", "C2"])
+    player_board.place(cruiser, ["B1", "B2", "B3"])
+    player_board.place(submarine, ["D1", "D2"])
 
-  # def test_computer_test_turn
-  #   computer = Board.new
-  #   player = Board.new
-  #   game = Game.new(computer, player)
-  #   guess = game.generate_random_coord
-  #   actual = player.cells.keys.include?(guess)
-  #
-  #   assert_equal true, actual
-  # end
-  #
-  #
-  #
-  # def test_computer_can_take_turns
-  #   board = Board.new
-  #   computer = Computer.new(board)
-  #   player = Player.new(board)
-  #   game = Game.new(computer, player)
-  #   cruiser = Ship.new("Cruiser", 3)
-  #   submarine = Ship.new("Submarine", 2)
-  #
-  #   computer.comp_placement(cruiser)
-  #   computer.comp_placement(submarine)
-  #   player.player_placement(cruiser, ["B2", "B3", "B4"])
-  #   player.player_placement(submarine, ["C3", "D3"])
-  #   game.computer_take_turn("D3")
-  #
-  #   actual = player.board.cells["D3"].fired_upon?
-  #   assert_equal true, actual
-  # end
-  #
-  # def test_player_can_take_turns
-  #   board = Board.new
-  #   computer = Computer.new(board)
-  #   player = Player.new(board)
-  #   game = Game.new(computer, player)
-  #   cruiser = Ship.new("Cruiser", 3)
-  #   submarine = Ship.new("Submarine", 2)
-  #
-  #   computer.comp_placement(cruiser)
-  #   computer.comp_placement(submarine)
-  #   player.player_placement(cruiser, ["B2", "B3", "B4"])
-  #   player.player_placement(submarine, ["C3", "D3"])
-  #   game.player_take_turn("D3")
-  #
-  #   actual = computer.board.cells["D3"].fired_upon?
-  #   assert_equal true, actual
-  # end
+    assert_equal 13, game.health(player_board)
+    assert_equal 13, game.health(computer_board)
+  end
+
+  def test_game_takes_turns
+    game = Game.new
+    computer_board = Board.new
+    player_board = Board.new
+    computer = Computer.new(computer_board, player_board)
+    player = Player.new(player_board, computer_board)
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+    game.turn("B4")
+
+
+    assert_equal true, game.player_board.render.include?("M")
+    assert_equal true, game.computer_board.render.include?("M")
+  end
+
+  def test
+
 
 end
