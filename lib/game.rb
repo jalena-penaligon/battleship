@@ -46,7 +46,7 @@ class Game
       return "Your shot on #{coordinate} was a miss!"
     elsif @computer_board.cells[coordinate].render == "H"
       return "Your shot on #{coordinate} was a hit!"
-    elsif @computer_board.cells[coordinate].render == "S"
+    elsif @computer_board.cells[coordinate].render == "X"
       return "Your shot on #{coordinate} sunk my battleship!!"
     end
   end
