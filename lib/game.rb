@@ -27,13 +27,13 @@ class Game
     puts "Enter the squares for the Cruiser (3 spaces):"
     puts "Square 1:"
     cruis_coords = []
-    square = gets.chomp.to_s
+    square = gets.chomp.to_s.upcase
     cruis_coords << square
     puts "Square 2:"
-    square = gets.chomp.to_s
+    square = gets.chomp.to_s.upcase
     cruis_coords << square
     puts "Square 3:"
-    square = gets.chomp.to_s
+    square = gets.chomp.to_s.upcase
     cruis_coords << square
   end
 
@@ -41,10 +41,10 @@ class Game
     puts "Enter 2 consecutive coordinates for your submarine."
     puts "Square 1:"
     sub_coords = []
-    square = gets.chomp.to_s
+    square = gets.chomp.to_s.upcase
     sub_coords << square
     puts "Square 2:"
-    square = gets.chomp.to_s
+    square = gets.chomp.to_s.upcase
     sub_coords << square
   end
 
