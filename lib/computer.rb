@@ -43,8 +43,9 @@ class Computer
   def take_turn
     guess = random_guess
     @player_board.cells[guess].fire_upon
+    return guess
   end
 
-  
+
 
 end

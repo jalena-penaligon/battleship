@@ -34,14 +34,34 @@ class Game
     return total_health
   end
 
+  def player_feedback(coordinate)
+    if @computer_board.cells[coordinate].render == "M"
+      return "Your shot on #{coordinate} was a miss!"
+    elsif @computer_board.cells[coordinate].render == "H"
+      return "Your shot on #{coordinate} was a hit!"
+    elsif @computer_board.cells[coordinate].render == "S"
+      return "Your shot on #{coordinate} sunk my battleship!!"
+    end
+  end
+
+  def computer_feedback(guess)
+    if @player_board.cells[guess].render == "M"
+      return "Your shot on #{guess} was a miss!"
+    elsif @player_board.cells[guess].render == "H"
+      return "Your shot on #{guess} was a hit!"
+    elsif @player_board.cells[guess].render == "S"
+      return "Your shot on #{guess} sunk my battleship!!"
+    end
+  end
+
   def turn(coordinate)
     @player.take_turn(coordinate)
-    @computer.take_turn
+    guess = @computer.take_turn
+    computer_feedback(guess)
+    player_feedback(coordinate)
   end
 
-  def feedback
 
-  end
 
 
 end

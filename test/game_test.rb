@@ -74,20 +74,19 @@ class GameTest < Minitest::Test
 
   def test_game_takes_turns
     game = Game.new
-    computer_board = Board.new
-    player_board = Board.new
-    computer = Computer.new(computer_board, player_board)
-    player = Player.new(player_board, computer_board)
-    cruiser = Ship.new("Cruiser", 3)
-    submarine = Ship.new("Submarine", 2)
+    game.start
+    game.player_setup(["A1", "A2", "A3"], ["C1", "C2"])
     game.turn("B4")
 
-
-    assert_equal true, game.player_board.render.include?("M")
-    assert_equal true, game.computer_board.render.include?("M")
+    assert_equal true, game.player_board.render.include?("M") || game.player_board.render.include?("H")
+    assert_equal true, game.computer_board.render.include?("M") || game.computer_board.render.include?("H")
   end
 
-  def test
+  def test_player_feedback
+    game = Game.new
+    game.start
+    game.player_setup(["A1", "A2", "A3"], ["C1", "C2"])
 
-
+    assert_equal String, game.turn("B4").class
+  end
 end
