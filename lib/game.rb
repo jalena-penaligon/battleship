@@ -17,10 +17,17 @@ class Game
     @computer.comp_placement(submarine)
   end
 
-  def player_setup(cruis_coords, sub_coords)
+  def player_setup_cruiser(cruis_coords)
     cruiser = Ship.new("Cruiser", 3)
+    if @player_board.valid_placement?(cruiser, cruis_coords) == true
+      @player.player_placement(cruiser, cruis_coords)
+    else
+      return false
+    end
+  end
+
+  def player_setup_submarine(sub_coords)
     submarine = Ship.new("Submarine", 2)
-    @player.player_placement(cruiser, cruis_coords)
     @player.player_placement(submarine, sub_coords)
   end
 
@@ -46,19 +53,28 @@ class Game
 
   def computer_feedback(guess)
     if @player_board.cells[guess].render == "M"
-      return "Your shot on #{guess} was a miss!"
+      return "My shot on #{guess} was a miss!"
     elsif @player_board.cells[guess].render == "H"
-      return "Your shot on #{guess} was a hit!"
-    elsif @player_board.cells[guess].render == "S"
-      return "Your shot on #{guess} sunk my battleship!!"
+      return "My shot on #{guess} was a hit!"
+    elsif @player_board.cells[guess].render == "X"
+      return "My shot on #{guess} sunk my battleship!!"
     end
   end
 
   def turn(coordinate)
     @player.take_turn(coordinate)
     guess = @computer.take_turn
-    computer_feedback(guess)
-    player_feedback(coordinate)
+    puts "#{computer_feedback(guess)}"
+    puts "#{player_feedback(coordinate)}"
+    return guess
+  end
+
+  def end_game
+    if health(@computer_board) == 0
+      puts "You won!"
+    elsif health(@player_board) == 0
+      puts "I won!"
+    end
   end
 
 
