@@ -23,7 +23,7 @@ class Game
       @player.player_placement(cruiser, cruis_coords)
     else
       return false
-    end 
+    end
   end
 
   def player_setup_submarine(sub_coords)
@@ -53,19 +53,19 @@ class Game
 
   def computer_feedback(guess)
     if @player_board.cells[guess].render == "M"
-      return "Your shot on #{guess} was a miss!"
+      return "My shot on #{guess} was a miss!"
     elsif @player_board.cells[guess].render == "H"
-      return "Your shot on #{guess} was a hit!"
+      return "My shot on #{guess} was a hit!"
     elsif @player_board.cells[guess].render == "S"
-      return "Your shot on #{guess} sunk my battleship!!"
+      return "My shot on #{guess} sunk my battleship!!"
     end
   end
 
   def turn(coordinate)
     @player.take_turn(coordinate)
     guess = @computer.take_turn
-    computer_feedback(guess)
-    player_feedback(coordinate)
+    puts "#{computer_feedback(guess)}"
+    puts "#{player_feedback(coordinate)}"
   end
 
 

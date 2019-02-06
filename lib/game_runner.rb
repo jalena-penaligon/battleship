@@ -81,7 +81,26 @@ end
 puts "==============PLAYER BOARD=============="
 puts game.player_board.render(true)
 
+while game.health(game.computer_board) != 0 || game.health(game.player_board) != 0
+  puts "=============COMPUTER BOARD============="
+  puts game.computer_board.render
+  puts "==============PLAYER BOARD=============="
+  puts game.player_board.render(true)
 
+  puts "Enter the coordinate for your shot:"
+  coordinate = gets.chomp.to_s
+
+  loop do
+    if game.computer_board.cells.keys.include?(coordinate) == false
+      puts "That was an incorrect coordinate. Please enter a valid coordinate:"
+      coordinate = gets.chomp.to_s
+    else
+      break
+    end
+  end
+
+  game.turn(coordinate)
+end
 #get to game = Game.new
 #game.start = method that starts game
 #all object creation happens after this point. (initialize)
