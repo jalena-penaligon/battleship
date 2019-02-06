@@ -51,7 +51,8 @@ class GameTest < Minitest::Test
     game = Game.new
     cruis_coords = ["A1", "B1", "C1"]
     sub_coords = ["B3", "B4"]
-    game.player_setup(cruis_coords, sub_coords)
+    game.player_setup_cruiser(["A1", "A2", "A3"])
+    game.player_setup_submarine(["C1", "C2"])
 
     actual = game.player_board.render(true).include?("S")
     assert_equal true, actual
@@ -75,7 +76,8 @@ class GameTest < Minitest::Test
   def test_game_takes_turns
     game = Game.new
     game.start
-    game.player_setup(["A1", "A2", "A3"], ["C1", "C2"])
+    game.player_setup_cruiser(["A1", "A2", "A3"])
+    game.player_setup_submarine(["C1", "C2"])
     game.turn("B4")
 
     assert_equal true, game.player_board.render.include?("M") || game.player_board.render.include?("H")
@@ -85,7 +87,8 @@ class GameTest < Minitest::Test
   def test_player_feedback
     game = Game.new
     game.start
-    game.player_setup(["A1", "A2", "A3"], ["C1", "C2"])
+    game.player_setup_cruiser(["A1", "A2", "A3"])
+    game.player_setup_submarine(["C1", "C2"])
 
     assert_equal String, game.turn("B4").class
   end

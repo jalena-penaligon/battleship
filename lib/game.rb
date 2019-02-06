@@ -17,10 +17,17 @@ class Game
     @computer.comp_placement(submarine)
   end
 
-  def player_setup(cruis_coords, sub_coords)
+  def player_setup_cruiser(cruis_coords)
     cruiser = Ship.new("Cruiser", 3)
+    if @player_board.valid_placement?(cruiser, cruis_coords) == true
+      @player.player_placement(cruiser, cruis_coords)
+    else
+      return false
+    end 
+  end
+
+  def player_setup_submarine(sub_coords)
     submarine = Ship.new("Submarine", 2)
-    @player.player_placement(cruiser, cruis_coords)
     @player.player_placement(submarine, sub_coords)
   end
 
