@@ -81,7 +81,12 @@ end
 puts "==============PLAYER BOARD=============="
 puts game.player_board.render(true)
 
-while game.health(game.computer_board) != 0 || game.health(game.player_board) != 0
+comp_health = game.health(game.computer_board)
+player_health = game.health(game.player_board)
+comp_guess = []
+player_guess = []
+
+while comp_health != 0 && player_health != 0
   puts "=============COMPUTER BOARD============="
   puts game.computer_board.render
   puts "==============PLAYER BOARD=============="
@@ -94,13 +99,27 @@ while game.health(game.computer_board) != 0 || game.health(game.player_board) !=
     if game.computer_board.cells.keys.include?(coordinate) == false
       puts "That was an incorrect coordinate. Please enter a valid coordinate:"
       coordinate = gets.chomp.to_s
+    elsif player_guess.include?(coordinate)
+      puts "You already guessed that coordinate! Please choose another."
+      coordinate = gets.chomp.to_s
     else
       break
     end
   end
 
-  game.turn(coordinate)
+  guess = game.turn(coordinate)
+  if comp_guess.include?(guess)
+    guess = game.turn(coordinate)
+  end
+  comp_guess << guess
+
+  player_guess << coordinate
+
+  comp_health = game.health(game.computer_board)
+  player_health = game.health(game.player_board)
 end
+
+game.end_game
 #get to game = Game.new
 #game.start = method that starts game
 #all object creation happens after this point. (initialize)

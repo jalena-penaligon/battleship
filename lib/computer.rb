@@ -36,8 +36,6 @@ class Computer
   def random_guess
     keys = @player_board.cells.keys
     guess = keys.sample
-    keys.delete(guess)
-    return guess
   end
 
   def take_turn

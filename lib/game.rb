@@ -56,7 +56,7 @@ class Game
       return "My shot on #{guess} was a miss!"
     elsif @player_board.cells[guess].render == "H"
       return "My shot on #{guess} was a hit!"
-    elsif @player_board.cells[guess].render == "S"
+    elsif @player_board.cells[guess].render == "X"
       return "My shot on #{guess} sunk my battleship!!"
     end
   end
@@ -66,6 +66,15 @@ class Game
     guess = @computer.take_turn
     puts "#{computer_feedback(guess)}"
     puts "#{player_feedback(coordinate)}"
+    return guess
+  end
+
+  def end_game
+    if health(@computer_board) == 0
+      puts "You won!"
+    elsif health(@player_board) == 0
+      puts "I won!"
+    end
   end
 
 
