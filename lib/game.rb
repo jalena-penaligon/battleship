@@ -15,7 +15,39 @@ class Game
     submarine = Ship.new("Submarine", 2)
     @computer.comp_placement(cruiser)
     @computer.comp_placement(submarine)
+    puts "I have laid out my ships on the grid."
+    puts "You now need to lay out your two ships."
+    puts "The Cruiser is two units long and the Submarine is three units long."
+
+    puts "==============PLAYER BOARD=============="
+    puts @player_board.render
   end
+
+  def collect_player_input_cruis
+    puts "Enter the squares for the Cruiser (3 spaces):"
+    puts "Square 1:"
+    cruis_coords = []
+    square = gets.chomp.to_s
+    cruis_coords << square
+    puts "Square 2:"
+    square = gets.chomp.to_s
+    cruis_coords << square
+    puts "Square 3:"
+    square = gets.chomp.to_s
+    cruis_coords << square
+  end
+
+  def collect_player_input_sub
+    puts "Enter 2 consecutive coordinates for your submarine."
+    puts "Square 1:"
+    sub_coords = []
+    square = gets.chomp.to_s
+    sub_coords << square
+    puts "Square 2:"
+    square = gets.chomp.to_s
+    sub_coords << square
+  end
+
 
   def player_setup_cruiser(cruis_coords)
     cruiser = Ship.new("Cruiser", 3)
@@ -28,7 +60,11 @@ class Game
 
   def player_setup_submarine(sub_coords)
     submarine = Ship.new("Submarine", 2)
-    @player.player_placement(submarine, sub_coords)
+    if @player_board.valid_placement?(submarine, sub_coords) == true
+      @player.player_placement(submarine, sub_coords)
+    else
+      return false
+    end
   end
 
   def health(board)
@@ -39,6 +75,13 @@ class Game
         end
       end
     return total_health
+  end
+
+  def render_boards
+    puts "=============COMPUTER BOARD============="
+    puts @computer_board.render
+    puts "==============PLAYER BOARD=============="
+    puts @player_board.render(true)
   end
 
   def player_feedback(coordinate)
