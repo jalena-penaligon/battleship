@@ -83,7 +83,7 @@ puts game.player_board.render(true)
 
 comp_health = game.health(game.computer_board)
 player_health = game.health(game.player_board)
-comp_guess = []
+# comp_guess = []
 player_guess = []
 
 while comp_health != 0 && player_health != 0
@@ -107,12 +107,7 @@ while comp_health != 0 && player_health != 0
     end
   end
 
-  guess = game.turn(coordinate)
-  if comp_guess.include?(guess)
-    guess = game.turn(coordinate)
-  end
-  comp_guess << guess
-
+  game.turn(coordinate)
   player_guess << coordinate
 
   comp_health = game.health(game.computer_board)

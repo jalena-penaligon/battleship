@@ -57,7 +57,7 @@ class Game
     elsif @player_board.cells[guess].render == "H"
       return "My shot on #{guess} was a hit!"
     elsif @player_board.cells[guess].render == "X"
-      return "My shot on #{guess} sunk my battleship!!"
+      return "My shot on #{guess} sunk your battleship!!"
     end
   end
 
@@ -74,6 +74,8 @@ class Game
       puts "You won!"
     elsif health(@player_board) == 0
       puts "I won!"
+    else
+      puts "You ended the game"
     end
   end
 end
